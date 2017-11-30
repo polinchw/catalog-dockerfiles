@@ -3,11 +3,13 @@ elasticsearch-masters:
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: elasticsearch-base-master,elasticsearch-datavolume-masters
+    io.rancher.scheduler.affinity:host_label: app=es
 elasticsearch-datavolume-masters:
   labels:
     elasticsearch.datanode.config.version: '0'
     io.rancher.container.hostname_override: container_name
     io.rancher.container.start_once: true
+    io.rancher.scheduler.affinity:host_label: app=es
   volumes:
     - /usr/share/elasticsearch/data
   entrypoint: /bin/true
@@ -16,6 +18,7 @@ elasticsearch-base-master:
   labels:
     elasticsearch.master.config.version: '0'
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=es
   image: elasticsearch:1.7.3
   net: "container:elasticsearch-masters"
   volumes_from:
@@ -31,6 +34,7 @@ elasticsearch-datanodes:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: elasticsearch-base-datanode,elasticsearch-datavolume-datanode
     io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+    io.rancher.scheduler.affinity:host_label: app=es
   links:
     - elasticsearch-masters:es-masters
 elasticsearch-datavolume-datanode:
@@ -38,6 +42,7 @@ elasticsearch-datavolume-datanode:
     elasticsearch.datanode.config.version: '0'
     io.rancher.container.hostname_override: container_name
     io.rancher.container.start_once: true
+    io.rancher.scheduler.affinity:host_label: app=es
   volumes:
     - /usr/share/elasticsearch/data
   entrypoint: /bin/true
@@ -46,6 +51,7 @@ elasticsearch-base-datanode:
   labels:
     elasticsearch.datanode.config.version: '0'
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=es
   image: elasticsearch:1.7.3
   links:
     - elasticsearch-masters:es-masters
@@ -62,6 +68,7 @@ elasticsearch-clients:
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: elasticsearch-base-clients,elasticsearch-datavolume-clients
+    io.rancher.scheduler.affinity:host_label: app=es
   links:
     - elasticsearch-masters:es-masters
 elasticsearch-datavolume-clients:
@@ -69,6 +76,7 @@ elasticsearch-datavolume-clients:
     elasticsearch.datanode.config.version: '0'
     io.rancher.container.hostname_override: container_name
     io.rancher.container.start_once: true
+    io.rancher.scheduler.affinity:host_label: app=es
   volumes:
     - /usr/share/elasticsearch/data
   entrypoint: /bin/true
@@ -77,6 +85,7 @@ elasticsearch-base-clients:
   labels:
     elasticsearch.client.config.version: '0'
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=es
   image: elasticsearch:1.7.3
   volumes_from:
     - elasticsearch-clients
@@ -95,5 +104,6 @@ kopf:
     KOPF_ES_SERVERS: 'es-clients:9200'
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=es
   links:
     - elasticsearch-clients:es-clients
