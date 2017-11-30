@@ -10,6 +10,7 @@ logspout:
   labels:
     io.rancher.scheduler.global: 'true'
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label_ne: app=es,app=logstash,app=kibana
   tty: true
   image: rancher/logspout-logstash:v0.2.0
   stdin_open: true
