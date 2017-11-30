@@ -3,6 +3,7 @@ logstash-indexer-config:
   image: rancher/logstash-config:v0.2.0
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=logstash
 redis:
   restart: always
   tty: true
@@ -10,6 +11,7 @@ redis:
   stdin_open: true
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=logstash
 logstash-indexer:
   restart: always
   tty: true
@@ -28,11 +30,13 @@ logstash-indexer:
   labels:
     io.rancher.sidekicks: logstash-indexer-config
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=logstash
 logstash-collector-config:
   restart: always
   image: rancher/logstash-config:v0.2.0
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=logstash
 logstash-collector:
   restart: always
   tty: true
@@ -51,3 +55,4 @@ logstash-collector:
   labels:
     io.rancher.sidekicks: logstash-collector-config
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=logstash
