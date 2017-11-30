@@ -7,11 +7,14 @@ kibana-vip:
   links:
   - nginx-proxy:kibana4
   stdin_open: true
+  labels:
+    io.rancher.scheduler.affinity:host_label: app=kibana
 nginx-proxy-conf:
   image: rancher/nginx-conf:v0.2.0
   command: "-backend=rancher --prefix=/2015-07-25"
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=kibana
 nginx-proxy:
   image: rancher/nginx:v1.9.4-3
   volumes_from:
@@ -19,6 +22,7 @@ nginx-proxy:
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: nginx-proxy-conf,kibana4
+    io.rancher.scheduler.affinity:host_label: app=kibana
   external_links:
     - es/elasticsearch-clients:elasticsearch
 kibana4:
@@ -31,3 +35,4 @@ kibana4:
     ELASTICSEARCH_URL: "http://elasticsearch:9200"
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: app=kibana
