@@ -1,0 +1,9 @@
+gitlab:
+  image: 'gitlab/gitlab-ce:latest'
+  restart: always
+  ports:
+    - '10800:80'
+  volumes:
+    - '/srv/gitlab/config:/etc/gitlab'
+    - '/srv/gitlab/logs:/var/log/gitlab'
+    - '/srv/gitlab/data:/var/opt/gitlab'
