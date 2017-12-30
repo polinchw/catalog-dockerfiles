@@ -8,9 +8,13 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
+    labels:
+     io.rancher.scheduler.affinity:host_label: app=mysql
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+    labels:
+     io.rancher.scheduler.affinity:host_label: app=adminer
