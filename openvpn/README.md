@@ -2,7 +2,7 @@
 
 ## Server
 
-* Install stall the docker-compose.yml and the rancher-compose.yml on the server.
+* Install the docker-compose.yml and the rancher-compose.yml on the server.
 * Replace the private-ip-of-ranche-server and the public-ip-of-open-ssh-server of the ssh server in the docker-compose.yml
 
 ## Client Config
