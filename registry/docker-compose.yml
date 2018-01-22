@@ -3,3 +3,5 @@ registry:
   restart: always
   ports:
     - '5000:5000'
+  volumes:
+    -  'registry:/var/lib/registry'
