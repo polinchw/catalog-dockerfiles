@@ -4,6 +4,6 @@ gitlab:
   ports:
     - '10800:80'
   volumes:
-    - '/srv/gitlab/config:/etc/gitlab'
-    - '/srv/gitlab/logs:/var/log/gitlab'
-    - '/srv/gitlab/data:/var/opt/gitlab'
+    - 'gitlab-config:/etc/gitlab'
+    - 'gitlab-logs:/var/log/gitlab'
+    - 'gitlab-data:/var/opt/gitlab'
