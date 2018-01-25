@@ -1,0 +1,10 @@
+jenkins-primary:
+  image: "polinchw/jenkins:2.103"
+  ports:
+    - "8080:8080"
+  labels:
+    io.rancher.container.hostname_override: container_name
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/bin/docker:/usr/bin/docker
+    - jenkins_home:/var/jenkins_home
