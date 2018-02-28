@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yml convert
+    kompose.version: 1.9.0 (093c756)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nexus
+  name: nexus
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nexus
+    spec:
+      containers:
+      - image: sonatype/nexus
+        name: nexus
+        ports:
+        - containerPort: 8081
+        resources: {}
+        volumeMounts:
+        - mountPath: /sonatype-work
+          name: nexus-nexus-data
+      restartPolicy: Always
+      volumes:
+      - name: nexus-nexus-data
+        persistentVolumeClaim:
+          claimName: nexus-nexus-data
+status: {}
